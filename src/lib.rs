@@ -151,7 +151,7 @@ pub mod market {
 }
 
 #[cfg(test)]
-mod tests {
+mod market_behaviour{
     use crate::market;
     #[test]
     fn update_partially_fulfilled_orders_when_sell_amount_more_than_buy_amount(){
