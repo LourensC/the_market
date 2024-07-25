@@ -12,6 +12,7 @@ pub mod market {
     #[derive(PartialEq)] 
     #[derive(Clone)] 
     #[derive(Debug)] 
+    #[derive(Hash)]
     pub struct SellOrder {
         pub account_id:String,
         pub ask:i32,
@@ -27,6 +28,7 @@ pub mod market {
     #[derive(PartialEq)] 
     #[derive(Clone)] 
     #[derive(Debug)] 
+    #[derive(Hash)]
     pub struct BuyOrder {
         pub account_id:String,
         pub bid:i32,
