@@ -1,13 +1,15 @@
 pub mod market {
-    #[derive(PartialEq)] 
-    #[derive(Debug)] 
+    #[derive(PartialEq)]
+    #[derive(Debug)]
     pub struct MarketError {
-        error:String,
+        error: String,
     }
 
-    //    impl MarketError {
-    //        fn new(error: String) -> Self { Self { error } }
-    //    }
+    impl MarketError {
+        pub fn new<S: Into<String>>(error: S) -> Self {
+            Self { error: error.into() }
+        }
+    }
 
     #[derive(PartialEq)] 
     #[derive(Clone)] 
@@ -75,10 +77,11 @@ pub mod market {
         pub fn resolve_orders(&mut self) -> Result<Vec<Trade>,MarketError>{
             self.sort_orders();
 
-            let mut trades:Vec<Trade> = Vec::new();
+            if self.buy_orders.is_empty() || self.sell_orders.is_empty() {
+                return Err(MarketError::new("no orders available"));
+            }
 
-            println!("{:?}",self.buy_orders[0].bid);
-            println!("{:?}",self.sell_orders[0].ask );
+            let mut trades:Vec<Trade> = Vec::new();
 
             if self.sell_orders[0].ask <= self.buy_orders[0].bid {
                 trades.push(
@@ -317,14 +320,23 @@ mod market_behaviour{
         assert_eq!(sell_orders.len() ,1);
     }
 
-    #[test] 
+    #[test]
     fn a_new_market_should_return_an_empty_order_book() {
         let mut testing_market = market::Market::new();
 
-        let (buy_orders ,sell_orders)  = 
+        let (buy_orders ,sell_orders)  =
             testing_market.get_order_book().expect("WTF? Where is my order book?");
 
         assert_eq!(buy_orders.len(), 0);
         assert_eq!(sell_orders.len() ,0);
+    }
+
+    #[test]
+    fn resolve_orders_should_error_when_no_orders() {
+        let mut testing_market = market::Market::new();
+
+        let result = testing_market.resolve_orders();
+
+        assert!(result.is_err());
     }
 }
