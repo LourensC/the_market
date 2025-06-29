@@ -1,4 +1,5 @@
 pub mod market {
+    /// Error type for market operations
     #[derive(PartialEq)]
     #[derive(Debug)]
     pub struct MarketError {
@@ -6,8 +7,8 @@ pub mod market {
     }
 
     impl MarketError {
-        pub fn new<S: Into<String>>(error: S) -> Self {
-            Self { error: error.into() }
+        pub fn new(error: String) -> Self {
+            Self { error }
         }
     }
 
