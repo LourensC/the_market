@@ -340,4 +340,13 @@ mod market_behavior{
 
         assert!(result.is_err());
     }
+
+    #[test]
+    fn resolve_orders_returns_error_on_empty_market() {
+        let mut market = market::Market::new();
+
+        let result = market.resolve_orders();
+
+        assert!(result.is_err());
+    }
 }
