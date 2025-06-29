@@ -77,8 +77,8 @@ pub mod market {
         pub fn resolve_orders(&mut self) -> Result<Vec<Trade>,MarketError>{
             self.sort_orders();
 
-            if self.buy_orders.is_empty() || self.sell_orders.is_empty() {
-                return Err(MarketError::new("no orders available"));
+            if self.buy_orders.get(0).is_none() || self.sell_orders.get(0).is_none() {
+                return Err(MarketError { error: "no orders available".to_string() });
             }
 
             let mut trades:Vec<Trade> = Vec::new();
